@@ -1,5 +1,5 @@
 <template>
-  <div class="home p-5">
+  <div class="component-task">
     <div class="xl:w-3/12 lg:w-4/12 md:w-6/12 sm:w-9/12 mx-auto">
       <el-card class="box-card">
         <!-- eslint-disable-next-line prettier/prettier -->
@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: "Home",
+  name: "ComTask",
   components: {},
   data() {
     return {
