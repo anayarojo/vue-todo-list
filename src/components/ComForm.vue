@@ -2,21 +2,48 @@
   <div class="component-form">
     <div class="xl:w-3/12 lg:w-4/12 md:w-6/12 sm:w-9/12 mx-auto">
       <el-card class="box-card">
-        <!-- eslint-disable-next-line prettier/prettier -->
-        <el-input placeholder="¿Qué pendiente hay?" :clearable="true" v-model="input"></el-input>
+        <input
+          type="text"
+          class="w-full"
+          placeholder="¿Qué pendiente hay?"
+          v-model="input"
+          v-on:keyup.enter="addNewTask"
+        />
       </el-card>
     </div>
   </div>
 </template>
 
 <script>
+import Guid from '@/shared/guid';
+
 export default {
-  name: "ComForm",
+  name: 'ComForm',
   components: {},
+  props: {},
   data() {
     return {
-      input: ""
+      input: '',
     };
-  }
+  },
+  computed: {},
+  methods: {
+    addNewTask: function() {
+      if (this.input.trim() === '') return;
+      this.$emit('add-new-task', {
+        uuid: Guid.get(),
+        description: this.input,
+        completed: false,
+      });
+      this.input = '';
+    },
+  },
 };
 </script>
+
+<style scoped>
+textarea:focus,
+input:focus {
+  outline: none;
+}
+</style>

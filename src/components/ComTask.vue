@@ -1,22 +1,66 @@
 <template>
   <div class="component-task">
-    <div class="xl:w-3/12 lg:w-4/12 md:w-6/12 sm:w-9/12 mx-auto">
-      <el-card class="box-card">
-        <!-- eslint-disable-next-line prettier/prettier -->
-        <el-input placeholder="¿Qué pendiente hay?" :clearable="true" v-model="input"></el-input>
-      </el-card>
+    <div class="flex flex-row items-center justify-between px-5">
+      <el-checkbox
+        v-model="task.completed"
+        @change="updateTask"
+        class="mr-3"
+        label=""
+      />
+      <input
+        type="text"
+        class="flex-auto text-left"
+        v-model="task.description"
+        v-on:keyup.enter="updateTask"
+      />
+      <i v-on:click="deleteTask" class="el-icon-close" />
     </div>
+    <el-divider v-if="!isLast()" class="my-2" />
   </div>
 </template>
 
 <script>
 export default {
-  name: "ComTask",
+  name: 'ComTask',
   components: {},
-  data() {
-    return {
-      input: ""
-    };
-  }
+  props: {
+    index: {
+      type: Number,
+    },
+    task: {
+      type: Object,
+    },
+    list: {
+      type: Array,
+    },
+  },
+  mounted() {
+    this.data.input = this.task.description;
+  },
+  computed: {
+    icon() {
+      return this.task.completed === true ? 'el-icon-check' : 'el-icon-minus';
+    },
+  },
+  methods: {
+    isLast() {
+      return this.index === this.list.length - 1;
+    },
+    updateTask() {
+      if (this.input.trim() === '') return;
+      this.$emit('update-task', this.task);
+    },
+    deleteTask() {
+      alert(`Delete`);
+      this.$emit('delete-task', this.task);
+    },
+  },
 };
 </script>
+
+<style scoped>
+textarea:focus,
+input:focus {
+  outline: none;
+}
+</style>

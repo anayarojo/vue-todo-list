@@ -1,22 +1,30 @@
 <template>
   <div class="home p-5">
-    <div class="xl:w-3/12 lg:w-4/12 md:w-6/12 sm:w-9/12 mx-auto">
-      <el-card class="box-card">
-        <!-- eslint-disable-next-line prettier/prettier -->
-        <el-input placeholder="¿Qué pendiente hay?" :clearable="true" v-model="input"></el-input>
-      </el-card>
-    </div>
+    <com-form v-on:add-new-task="addNewTask" />
+    <com-task-list :tasks="tasks" />
   </div>
 </template>
 
 <script>
+import ComForm from '@/components/ComForm';
+import ComTaskList from '@/components/ComTaskList';
+
 export default {
-  name: "Home",
-  components: {},
+  name: 'Home',
+  components: {
+    ComForm,
+    ComTaskList,
+  },
   data() {
     return {
-      input: ""
+      tasks: [],
     };
-  }
+  },
+  computed: {},
+  methods: {
+    addNewTask: function(task) {
+      this.tasks.push(task);
+    },
+  },
 };
 </script>
