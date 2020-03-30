@@ -10,6 +10,7 @@
       <input
         type="text"
         class="flex-auto text-left"
+        :class="task.completed ? 'line-through' : ''"
         v-model="task.description"
         v-on:keyup.enter="updateTask"
       />
@@ -37,9 +38,6 @@ export default {
       type: Object,
     },
   },
-  mounted() {
-    this.data.input = this.task.description;
-  },
   computed: {
     icon() {
       return this.task.completed === true ? 'el-icon-check' : 'el-icon-minus';
@@ -47,12 +45,11 @@ export default {
   },
   methods: {
     updateTask() {
-      if (this.input.trim() === '') return;
+      if (this.task.description.trim() === '') return;
       this.$emit('update-task', this.task);
     },
     deleteTask() {
-      alert(`Delete`);
-      this.$emit('delete-task', this.task.uuid);
+      this.$emit('delete-task', this.task);
     },
   },
 };

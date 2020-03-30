@@ -9,7 +9,7 @@
         :color="'#409EFF'"
       />
       <!-- eslint-disable-next-line prettier/prettier -->
-      <el-card v-if="!isLoadingTasks && tasks && tasks.lenght > 0" class="box-card" :body-style="{ padding: '20px 0px' }">
+      <el-card v-if="!isLoadingTasks && tasks && tasks.length > 0" class="box-card" :body-style="{ padding: '20px 0px' }">
         <com-task
           v-for="(task, index) in tasks"
           :key="task.uuid"
@@ -17,6 +17,7 @@
           :task="task"
           :length="tasks.length"
           @update-task="updateTask"
+          @delete-task="deleteTask"
         />
       </el-card>
     </div>
@@ -42,7 +43,7 @@ export default {
   data() {
     return {
       isLoadingTasks: false,
-      tasks: null,
+      tasks: [],
     };
   },
   created() {
@@ -50,20 +51,22 @@ export default {
   },
   methods: {
     addTask(task) {
-      this.tasks.push(task);
       Storage.addTask(task, this.uuid);
+      this.loadTasks(false);
     },
     updateTask(task) {
       Storage.updateTask(task, this.uuid);
+      this.loadTasks(false);
     },
     deleteTask(task) {
       Storage.deleteTask(task.uuid, this.uuid);
+      this.loadTasks(false);
     },
-    loadTasks() {
-      this.isLoadingTasks = true;
+    loadTasks(showLoading = true) {
+      if (showLoading) this.isLoadingTasks = true;
       const group = Storage.getTasks(this.uuid);
-      this.$set(this.tasks, group.list);
-      this.isLoadingTasks = false;
+      this.tasks = group.list;
+      if (showLoading) this.isLoadingTasks = false;
     },
   },
 };

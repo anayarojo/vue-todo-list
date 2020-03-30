@@ -16,22 +16,22 @@ const Storage = (function() {
 
   _public.updateTask = function(task, list = 'default') {
     const tasks = _private.getTasks(list);
-    const index = tasks.findIndex((t) => t.uuid == task.uuid);
-
-    if (index > -1) {
-      tasks[index] = task;
-      _private.updateTasks(tasks, list);
-    }
+    tasks.list.forEach((element, index) => {
+      if (element.uuid === task.uuid) {
+        tasks.list[index] = task;
+        _private.updateTasks(tasks, list);
+      }
+    });
   };
 
   _public.deleteTask = function(uuid, list = 'default') {
     const tasks = _private.getTasks(list);
-    const index = tasks.findIndex((t) => t.uuid == uuid);
-
-    if (index > -1) {
-      tasks.splice(index, 1);
-      _private.updateTasks(tasks, list);
-    }
+    tasks.list.forEach((element, index) => {
+      if (element.uuid === uuid) {
+        tasks.list.splice(index, 1);
+        _private.updateTasks(tasks, list);
+      }
+    });
   };
 
   _private.updateTasks = function(value, list) {
