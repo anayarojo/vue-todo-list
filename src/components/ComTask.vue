@@ -13,9 +13,12 @@
         v-model="task.description"
         v-on:keyup.enter="updateTask"
       />
-      <i v-on:click="deleteTask" class="el-icon-close" />
+      <i
+        v-on:click="deleteTask"
+        class="el-icon-close cursor-pointer hover:text-red-500"
+      />
     </div>
-    <el-divider v-if="!isLast()" class="my-2" />
+    <el-divider v-if="index != length - 1" class="my-2" />
   </div>
 </template>
 
@@ -27,11 +30,11 @@ export default {
     index: {
       type: Number,
     },
+    length: {
+      type: Number,
+    },
     task: {
       type: Object,
-    },
-    list: {
-      type: Array,
     },
   },
   mounted() {
@@ -43,16 +46,13 @@ export default {
     },
   },
   methods: {
-    isLast() {
-      return this.index === this.list.length - 1;
-    },
     updateTask() {
       if (this.input.trim() === '') return;
       this.$emit('update-task', this.task);
     },
     deleteTask() {
       alert(`Delete`);
-      this.$emit('delete-task', this.task);
+      this.$emit('delete-task', this.task.uuid);
     },
   },
 };

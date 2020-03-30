@@ -1,18 +1,19 @@
 <template>
-  <div id="app" class="w-screen h-screen bg-gray-100">
+  <div id="app" class="w-full min-h-screen bg-gray-100">
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: "app",
-  components: {}
+  name: 'app',
+  components: {},
 };
 </script>
 
 <style>
-html, body {
+html,
+body {
   padding: 0;
   margin: auto;
 }
