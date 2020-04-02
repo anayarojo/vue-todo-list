@@ -7,7 +7,7 @@ https://anayarojo-vue-todo-list.netlify.com/
 
 ### Screenshot
 
-
+![Screenshot-1](https://github.com/anayarojo/vue-todo-list/blob/master/doc/vue-todo-list.JPG?raw=true)
 
 ## Project setup
 ```
