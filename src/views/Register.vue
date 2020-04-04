@@ -58,6 +58,8 @@ import ComContainer from '@/components/ComContainer';
       const validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('Favor de ingresar una contraseña'));
+        } else if (value.length < 6) {
+          callback(new Error('La contraseña debe de tener al menos 6 caracteres'));
         } else {
           if (this.form.password_confirmation !== '') {
             this.$refs.form.validateField('password_confirmation');
