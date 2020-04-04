@@ -11,6 +11,8 @@
     "@saeris/vue-spinners": "^1.0.8",
     "core-js": "^3.6.4",
     "element-ui": "^2.4.5",
+    "node-sass": "^4.13.1",
+    "sass-loader": "^8.0.2",
     "tailwindcss": "^1.1.2",
     "vue": "^2.6.11",
     "vue-router": "^3.1.5",

@@ -10,7 +10,7 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: {
-      title: 'Lista de pendientes',
+      title: 'TODO',
     },
   },
   {
@@ -24,7 +24,7 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/Register.vue'),
+    component: () => import('../views/Login.vue'),
     meta: {
       title: 'Login',
     },

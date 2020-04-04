@@ -1,6 +1,6 @@
 <template>
   <div class="component-form">
-    <div class="xl:w-3/12 lg:w-4/12 md:w-6/12 sm:w-9/12 mx-auto">
+    <com-container>
       <el-card class="box-card">
         <input
           type="text"
@@ -10,16 +10,19 @@
           v-on:keyup.enter="addNewTask"
         />
       </el-card>
-    </div>
+    </com-container>
   </div>
 </template>
 
 <script>
 import Guid from '@/shared/guid';
+import ComContainer from '@/components/ComContainer';
 
 export default {
   name: 'ComForm',
-  components: {},
+  components: {
+    ComContainer,
+  },
   props: {},
   data() {
     return {
