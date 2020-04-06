@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { Autentication } from "@/shared/api";
 import ComContainer from '@/components/ComContainer';
 
   export default {
@@ -73,14 +74,14 @@ import ComContainer from '@/components/ComContainer';
     },
     computed: {},
     methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!');
-            return false;
+      async submitForm(formName) {
+        return this.$refs[formName].validate(async (valid) => {
+          if (!valid) return false;
+          if (!await Autentication.login(this.form)) {
+              this.error = 'No fue posible crear la cuenta, favor de intentar en otro momento';
+              return false;
           }
+          this.$router.push('dashboard');
         });
       },
       resetForm(formName) {
