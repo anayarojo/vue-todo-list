@@ -4,11 +4,11 @@
     <com-container>
       <bounce-loader
         class="mx-auto my-3"
-        :loading="isLoadingTasks"
+        :loading="isLoading.tasks"
         :size="100"
         :color="'#409EFF'"
       />
-      <el-card v-if="!isLoadingTasks && tasks && tasks.length > 0" class="box-card" :body-style="{ padding: '20px 0px' }">
+      <el-card v-if="!isLoading.tasks && tasks && tasks.length > 0" class="box-card" :body-style="{ padding: '20px 0px' }">
         <com-task
           v-for="(task, index) in tasks"
           :key="task.uuid"
@@ -19,7 +19,7 @@
           @delete-task="deleteTask"
         />
       </el-card>
-      <div class="text-center mt-3">
+      <div v-if="!isLoading.session" class="text-center mt-3">
         <p>¿Quieres guardar tus listas en la nube?</p>
         <p>
           <span>
@@ -62,7 +62,10 @@ export default {
   },
   data() {
     return {
-      isLoadingTasks: false,
+      isLoading : {
+        tasks: false,
+        token: false
+      },
       tasks: [],
     };
   },
