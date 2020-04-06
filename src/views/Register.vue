@@ -5,6 +5,13 @@
           <div slot="header" class="clearfix">
             <span>Crear cuenta</span>
           </div>
+          <el-alert v-if="error"
+            class="mb-5"
+            :title="error"
+            @close="error = null"
+            type="error"
+            show-icon>
+          </el-alert>
           <el-form ref="form" :model="form" :rules="rules">
             <el-form-item prop="name">
               <el-input v-model="form.name" placeholder="Nombre">
@@ -26,7 +33,7 @@
                 <i slot="prefix" class="el-input__icon el-icon-lock"></i>
               </el-input>
             </el-form-item>
-            <el-form-item>
+            <el-form-item class="mt-10">
               <el-button type="primary" @click="submitForm('form')" round>Crear</el-button>
               <el-button @click="cancel('form')" round>Cancelar</el-button>
             </el-form-item>
@@ -47,6 +54,7 @@
 </template>
 
 <script>
+import { Validators, Autentication } from "@/shared/api";
 import ComContainer from '@/components/ComContainer';
 
   export default {
@@ -55,6 +63,15 @@ import ComContainer from '@/components/ComContainer';
       ComContainer,
     },
     data() {
+      const validateEmailAvailability = (rule, value, callback) => {
+        Validators.emailAvailability(value).then((available) => {
+          if (available === false) {
+            callback(new Error('El correo electrónico ingresado ya se encuentra ocupado'));
+          } else {
+            callback();
+          }
+        });
+      };
       const validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('Favor de ingresar una contraseña'));
@@ -102,6 +119,7 @@ import ComContainer from '@/components/ComContainer';
               message: 'Favor de ingresar un correo eletrónico válido',
               trigger: 'blur'
             },
+            { validator: validateEmailAvailability, trigger: 'blur' },
           ],
           password: [
             { validator: validatePass, trigger: 'blur' },
@@ -109,19 +127,20 @@ import ComContainer from '@/components/ComContainer';
           password_confirmation: [
             { validator: validatePass2, trigger: 'blur' },
           ],
-        }
+        },
+        error: null,
       };
     },
     computed: {},
     methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!');
-            return false;
+      async submitForm(formName) {
+        return this.$refs[formName].validate(async (valid) => {
+          if (!valid) return false;
+          if (!await Autentication.register(this.form)) {
+              this.error = 'No fue posible crear la cuenta, favor de intentar en otro momento';
+              return false;
           }
+          this.$router.push('dashboard');
         });
       },
       resetForm(formName) {

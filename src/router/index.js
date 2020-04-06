@@ -29,6 +29,14 @@ const routes = [
       title: 'Login',
     },
   },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import('../views/Dashboard.vue'),
+    meta: {
+      title: 'Dashboard',
+    },
+  },
 ];
 
 const router = new VueRouter({

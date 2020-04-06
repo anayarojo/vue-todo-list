@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import Storage from '@/shared/storage';
+import Tasks from '@/shared/tasks';
 import ComForm from '@/components/ComForm';
 import ComTask from '@/components/ComTask';
 import ComContainer from '@/components/ComContainer';
@@ -71,20 +71,20 @@ export default {
   },
   methods: {
     addTask(task) {
-      Storage.addTask(task, this.uuid);
+      Tasks.addTask(task, this.uuid);
       this.loadTasks(false);
     },
     updateTask(task) {
-      Storage.updateTask(task, this.uuid);
+      Tasks.updateTask(task, this.uuid);
       this.loadTasks(false);
     },
     deleteTask(task) {
-      Storage.deleteTask(task.uuid, this.uuid);
+      Tasks.deleteTask(task.uuid, this.uuid);
       this.loadTasks(false);
     },
     loadTasks(showLoading = true) {
       if (showLoading) this.isLoadingTasks = true;
-      const group = Storage.getTasks(this.uuid);
+      const group = Tasks.getTasks(this.uuid);
       this.tasks = group.list;
       if (showLoading) this.isLoadingTasks = false;
     },

@@ -1,54 +1,20 @@
-import Guid from '@/shared/guid.js';
 
 const Storage = (function() {
   const _public = {};
-  const _private = {};
 
-  _public.getTasks = function(list = 'default') {
-    return _private.getTasks(list);
+  _public.get = function(key, serialized = false) {
+    return serialized ? 
+      JSON.parse(localStorage.getItem(key)) : 
+      localStorage.getItem(key);
   };
 
-  _public.addTask = function(task, list = 'default') {
-    const tasks = _private.getTasks(list);
-    tasks.list.push(task);
-    _private.updateTasks(tasks, list);
+  _public.set = function(key, value, serialized = false) {
+    value = serialized ? JSON.stringify(value) : value;
+    localStorage.setItem(key, value);
   };
 
-  _public.updateTask = function(task, list = 'default') {
-    const tasks = _private.getTasks(list);
-    tasks.list.forEach((element, index) => {
-      if (element.uuid === task.uuid) {
-        tasks.list[index] = task;
-        _private.updateTasks(tasks, list);
-      }
-    });
-  };
-
-  _public.deleteTask = function(uuid, list = 'default') {
-    const tasks = _private.getTasks(list);
-    tasks.list.forEach((element, index) => {
-      if (element.uuid === uuid) {
-        tasks.list.splice(index, 1);
-        _private.updateTasks(tasks, list);
-      }
-    });
-  };
-
-  _private.updateTasks = function(value, list) {
-    localStorage.setItem(`tasks_${list}`, JSON.stringify(value));
-  };
-
-  _private.getTasks = function(list) {
-    let tasks = JSON.parse(localStorage.getItem(`tasks_${list}`));
-
-    tasks = tasks || {
-      name: 'default',
-      description: 'Default task list, please enter a detailed description.',
-      uuid: Guid.get(),
-      list: [],
-    };
-
-    return tasks;
+  _public.remove = function(key) {
+    localStorage.removeItem(key);
   };
 
   return _public;
