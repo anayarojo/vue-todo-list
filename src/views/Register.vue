@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { Validators, Autentication } from "@/shared/api";
+import { Validators, Authentication } from "@/shared/api";
 import ComContainer from '@/components/ComContainer';
 
   export default {
@@ -136,7 +136,7 @@ import ComContainer from '@/components/ComContainer';
       async submitForm(formName) {
         return this.$refs[formName].validate(async (valid) => {
           if (!valid) return false;
-          if (!await Autentication.register(this.form)) {
+          if (!await Authentication.register(this.form)) {
               this.error = 'No fue posible crear la cuenta, favor de intentar en otro momento';
               return false;
           }

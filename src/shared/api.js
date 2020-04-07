@@ -17,7 +17,7 @@ export const Validators = (function() {
     return _public;
 })();
 
-export const Autentication = (function() {
+export const Authentication = (function() {
     const _public = {};
     
     _public.register = async function(form) {
@@ -27,8 +27,11 @@ export const Autentication = (function() {
             password: form.password,
             password_confirmation: form.password_confirmation
         });
+
         if (response.data.error) return false;
-        Storage.set('auth_token', response.data.token);
+        Storage.set('token', response.data.token);
+        Storage.set('user', response.data.user, true);
+        
         return true;
     };
 
@@ -37,10 +40,39 @@ export const Autentication = (function() {
             email: form.email,
             password: form.password
         });
+
         if (response.data.error) return false;
-        Storage.set('auth_token', response.data.token);
+        Storage.set('token', response.data.token);
+
         return true;
     };
+
+    _public.getUser = async function() {
+        const token = await _public.getToken();
+
+        if (!token) {
+            Storage.remove('token');
+            Storage.remove('user');
+            return null;
+        }
+        
+        const response = await await axios.get(`${apiBase}/user`);
+
+        if (response.data.error || !response.data.user) {
+            Storage.remove('token');
+            Storage.remove('user');
+            return null;
+        }
+
+        Storage.set('user', response.data.user);
+        return response.data.user;
+    };
+
+    _public.getToken = async function() {
+        const token = Storage.get('token');
+        return token && token != '';
+    };
+
 
     return _public;
 })();

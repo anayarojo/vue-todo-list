@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
+import IsLoggedInGuard from '@/guards/isLoggedIn';
 
 Vue.use(VueRouter);
 
@@ -16,6 +17,7 @@ const routes = [
   {
     path: '/register',
     name: 'Register',
+    beforeEnter: IsLoggedInGuard,
     component: () => import('../views/Register.vue'),
     meta: {
       title: 'Registro',
@@ -24,6 +26,7 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
+    beforeEnter: IsLoggedInGuard,
     component: () => import('../views/Login.vue'),
     meta: {
       title: 'Login',
@@ -32,6 +35,7 @@ const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
+    beforeEnter: IsLoggedInGuard,
     component: () => import('../views/Dashboard.vue'),
     meta: {
       title: 'Dashboard',
