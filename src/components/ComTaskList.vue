@@ -19,27 +19,39 @@
           @delete-task="deleteTask"
         />
       </el-card>
-      <div v-if="!isLoading.session" class="text-center mt-3">
+      <div v-if="!isLoading.user" class="text-center mt-3">
         <p>¿Quieres guardar tus listas en la nube?</p>
-        <p>
-          <span>
-            <el-link class="-mt-1 text-base" type="primary" @click="$router.push('register')">
-              Regístrate
-            </el-link>
-          </span>
-          o
-          <span>
-            <el-link class="-mt-1 text-base" type="primary" @click="$router.push('login')">
-              Inicia sesión
-            </el-link>
-          </span>
-        </p>
+        <template v-if="!user">
+          <p>
+            <span>
+              <el-link class="-mt-1 text-base" type="primary" @click="$router.push('register')">
+                Regístrate
+              </el-link>
+            </span>
+            o
+            <span>
+              <el-link class="-mt-1 text-base" type="primary" @click="$router.push('login')">
+                Inicia sesión
+              </el-link>
+            </span>
+          </p>
+        </template>
+        <template v-else>
+          <p>
+            <span>
+              <el-link class="-mt-1 text-base" type="primary" @click="$router.push('dashboard')">
+                Ir al dashboard
+              </el-link>
+            </span>
+          </p>
+        </template>
       </div>
     </com-container>
   </div>
 </template>
 
 <script>
+import { Authentication } from '@/shared/api';
 import Tasks from '@/shared/tasks';
 import ComForm from '@/components/ComForm';
 import ComTask from '@/components/ComTask';
@@ -64,13 +76,15 @@ export default {
     return {
       isLoading : {
         tasks: false,
-        token: false
+        user: false
       },
       tasks: [],
+      user: null,
     };
   },
-  created() {
-    this.loadTasks();
+  async created() {
+    await this.loadUser();
+    await this.loadTasks();
   },
   methods: {
     addTask(task) {
@@ -85,12 +99,17 @@ export default {
       Tasks.deleteTask(task.uuid, this.uuid);
       this.loadTasks(false);
     },
-    loadTasks(showLoading = true) {
-      if (showLoading) this.isLoadingTasks = true;
+    async loadTasks(showLoading = true) {
+      if (showLoading) this.isLoading.tasks = true;
       const group = Tasks.getTasks(this.uuid);
       this.tasks = group.list;
-      if (showLoading) this.isLoadingTasks = false;
+      if (showLoading) this.isLoading.tasks = false;
     },
+    async loadUser() {
+      this.isLoading.user = true;
+      this.user = await Authentication.getUser();
+      this.isLoading.user = false;
+    }
   },
 };
 </script>

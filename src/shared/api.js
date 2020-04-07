@@ -47,32 +47,37 @@ export const Authentication = (function() {
         return true;
     };
 
+    _public.logout = function() {
+        Storage.set('token', null);
+        Storage.set('user', null, true);
+    };
+
     _public.getUser = async function() {
         const token = await _public.getToken();
 
         if (!token) {
-            Storage.remove('token');
             Storage.remove('user');
             return null;
         }
         
-        const response = await await axios.get(`${apiBase}/user`);
+        const response = await await axios.get(`${apiBase}/user`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
         if (response.data.error || !response.data.user) {
-            Storage.remove('token');
             Storage.remove('user');
             return null;
         }
 
-        Storage.set('user', response.data.user);
+        Storage.set('user', response.data.user, true);
         return response.data.user;
     };
 
     _public.getToken = async function() {
-        const token = Storage.get('token');
-        return token && token != '';
+        return Storage.get('token');
     };
-
 
     return _public;
 })();

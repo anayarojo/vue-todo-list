@@ -41,6 +41,14 @@ const routes = [
       title: 'Dashboard',
     },
   },
+  {
+    path: '*',
+    name: 'Error404',
+    component: () => import('../views/errors/404.vue'),
+    meta: {
+      title: 'No se encontró la página',
+    },
+  },
 ];
 
 const router = new VueRouter({
