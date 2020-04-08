@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+
 import Home from '../views/Home.vue';
 import IsLoggedInGuard from '@/guards/isLoggedIn';
 
@@ -12,6 +13,7 @@ const routes = [
     component: Home,
     meta: {
       title: 'TODO',
+      showProgressBar: true
     },
   },
   {
@@ -21,6 +23,7 @@ const routes = [
     component: () => import('../views/Register.vue'),
     meta: {
       title: 'Registro',
+      showProgressBar: true
     },
   },
   {
@@ -30,15 +33,17 @@ const routes = [
     component: () => import('../views/Login.vue'),
     meta: {
       title: 'Login',
+      showProgressBar: true
     },
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
     beforeEnter: IsLoggedInGuard,
-    component: () => import('../views/Dashboard.vue'),
+    component: () => import('../views/app/Dashboard.vue'),
     meta: {
       title: 'Dashboard',
+      showProgressBar: true
     },
   },
   {
@@ -47,6 +52,7 @@ const routes = [
     component: () => import('../views/errors/404.vue'),
     meta: {
       title: 'No se encontró la página',
+      showProgressBar: true
     },
   },
 ];
@@ -55,6 +61,17 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  next();
+});
+
+router.beforeResolve((to, from, next) => {
+  next();
+});
+
+router.afterEach(() => {
 });
 
 export default router;

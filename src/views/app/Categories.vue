@@ -31,6 +31,7 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item icon="el-icon-plus">Crear</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-folder">Administrar</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
@@ -49,6 +50,7 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item icon="el-icon-plus">Crear</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-folder">Administrar</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
@@ -67,6 +69,7 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item icon="el-icon-plus">Crear</el-dropdown-item>
+                  <el-dropdown-item icon="el-icon-folder">Administrar</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </div>

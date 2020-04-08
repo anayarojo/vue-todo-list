@@ -1,13 +1,25 @@
 <template>
-  <div id="app" class="w-full min-h-screen bg-gray-100">
-    <router-view></router-view>
-  </div>
+  <component :is="layout">
+    <transition name="fade" mode="out-in">
+      <keep-alive>
+        <router-view :layout.sync="layout"/>
+      </keep-alive>
+    </transition>
+  </component>
 </template>
 
 <script>
 export default {
   name: 'app',
   components: {},
+  data() {
+    return {
+      layout: 'div',
+    };
+  },
+  created() {
+    document.title = 'TODO';
+  },
   watch: {
     $route: {
       handler: (to) => {
@@ -24,5 +36,11 @@ html,
 body {
   padding: 0;
   margin: auto;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>
