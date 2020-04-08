@@ -1,8 +1,8 @@
 <template>
-  <component :is="layout">
+  <component :is="layout" :shared="shared">
     <transition name="fade" mode="out-in">
       <keep-alive>
-        <router-view :layout.sync="layout"/>
+        <router-view :layout.sync="layout" :shared.sync="shared" />
       </keep-alive>
     </transition>
   </component>
@@ -15,6 +15,7 @@ export default {
   data() {
     return {
       layout: 'div',
+      shared: () => {},
     };
   },
   created() {

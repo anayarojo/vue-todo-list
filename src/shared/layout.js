@@ -7,6 +7,10 @@ export default {
       type: String,
       required: true,
     },
+    shared: {
+      type: Object,
+      required: false,
+    },
   },
   created() {
     // Check if the layout component
@@ -19,6 +23,7 @@ export default {
     }
 
     this.$parent.$emit('update:layout', this.name);
+    this.$parent.$emit('update:shared', this.shared);
   },
   render() {
     return this.$slots.default[0];
