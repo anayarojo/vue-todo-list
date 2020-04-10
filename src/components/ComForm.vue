@@ -4,7 +4,7 @@
       <el-card class="box-card">
         <input
           type="text"
-          class="w-full"
+          class="w-full outline-none"
           placeholder="¿Qué pendiente hay?"
           v-model="input"
           v-on:keyup.enter="addNewTask"
@@ -43,10 +43,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-textarea:focus,
-input:focus {
-  outline: none;
-}
-</style>

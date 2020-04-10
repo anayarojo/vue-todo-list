@@ -22,7 +22,7 @@
               </el-input>
             </el-form-item>
             <el-form-item prop="password_confirmation">
-              <el-input v-model="form.password_confirmation" v-on:keyup.enter="submitForm('form')" 
+              <el-input v-model="form.password_confirmation" @change="submitForm('form')" 
                 type="password" placeholder="Confirmar contraseña" autocomplete="off">
                 <i slot="prefix" class="el-input__icon el-icon-lock"></i>
               </el-input>
@@ -125,17 +125,17 @@ import ComContainer from '@/components/ComContainer';
         },
       };
     },
-    computed: {},
     methods: {
       async submitForm(formName) {
         return this.$refs[formName].validate(async (valid) => {
           if (!valid) return false;
+          const response = await this.login(this.form);
 
-          if (!await this.register(this.form)) {
-              this.error = 'No fue posible crear la cuenta, favor de intentar en otro momento.';
+          if (!response.success) {
               this.$notify.error({
                 title: 'Error',
-                message: 'No fue posible crear la cuenta, favor de intentar en otro momento.'
+                duration: 5000,
+                message: response.message,
               });
               return false;
           }
@@ -148,7 +148,7 @@ import ComContainer from '@/components/ComContainer';
       },
       cancel(formName) {
         this.resetForm(formName);
-        this.$router.go(-1);
+        this.$router.push({ name: 'Home' })
       },
       ...mapActions('session', [
         'register',

@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-
 import Home from '../views/Home.vue';
-import IsLoggedInGuard from '@/guards/isLoggedIn';
+import auth from '@/guards/auth';
 
 Vue.use(VueRouter);
 
@@ -13,37 +12,33 @@ const routes = [
     component: Home,
     meta: {
       title: 'TODO',
-      showProgressBar: true
     },
   },
   {
     path: '/register',
     name: 'Register',
-    beforeEnter: IsLoggedInGuard,
     component: () => import('../views/Register.vue'),
     meta: {
       title: 'Registro',
-      showProgressBar: true
+      middleware: auth,
     },
   },
   {
     path: '/login',
     name: 'Login',
-    beforeEnter: IsLoggedInGuard,
     component: () => import('../views/Login.vue'),
     meta: {
       title: 'Login',
-      showProgressBar: true
+      middleware: auth,
     },
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
-    beforeEnter: IsLoggedInGuard,
     component: () => import('../views/app/Dashboard.vue'),
     meta: {
       title: 'Dashboard',
-      showProgressBar: true
+      middleware: auth,
     },
   },
   {
@@ -63,15 +58,56 @@ const router = new VueRouter({
   routes,
 });
 
+// Creates a `nextMiddleware()` function which not only
+// runs the default `next()` callback but also triggers
+// the subsequent Middleware function.
+function nextFactory(context, middleware, index) {
+  const subsequentMiddleware = middleware[index];
+  // If no subsequent Middleware exists,
+  // the default `next()` callback is returned.
+  if (!subsequentMiddleware) return context.next;
+
+  return (...parameters) => {
+    // Run the default Vue Router `next()` callback first.
+    context.next(...parameters);
+    // Then run the subsequent Middleware with a new
+    // `nextMiddleware()` callback.
+    const nextMiddleware = nextFactory(context, middleware, index + 1);
+    subsequentMiddleware({ ...context, next: nextMiddleware });
+  };
+}
+
 router.beforeEach((to, from, next) => {
-  next();
-});
+  if (to.meta.middleware) {
 
-router.beforeResolve((to, from, next) => {
-  next();
-});
+    const middleware = Array.isArray(to.meta.middleware) ? 
+      to.meta.middleware : 
+      [to.meta.middleware];
 
-router.afterEach(() => {
+    const context = {
+      from,
+      next,
+      router,
+      to,
+    };
+
+    const nextMiddleware = nextFactory(context, middleware, 1);
+    return middleware[0]({ ...context, next: nextMiddleware });
+  }
+
+  return next();
 });
+  
+
+// router.beforeEach((to, from, next) => {
+//   next();
+// });
+
+// router.beforeResolve((to, from, next) => {
+//   next();
+// });
+
+// router.afterEach(() => {
+// });
 
 export default router;

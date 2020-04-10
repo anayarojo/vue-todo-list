@@ -1,4 +1,4 @@
-import keys from '@/shared/keys';
+import keys from '@/store/keys';
 import Storage from '@/shared/storage';
 import Authentication from '@/api/authentication';
 
@@ -19,29 +19,29 @@ const mutations = {
 const actions = {
     async register({ commit }, form) {
         const response = await Authentication.register(form);
-        if (!response.data || response.data.error) return false;
-        commit('setToken', response.data.token);
-        commit('setUser', response.data.user);
-        return true;
+        if (!response.success) return response;
+        commit('setToken', response.token);
+        commit('setUser', response.user);
+        return response;
     },
     async login({ commit }, form) {
         const response = await Authentication.login(form);
-        if (!response.data || response.data.error) return false;
-        commit('setToken', response.data.token);
-        commit('setUser', response.data.user);
-        return true;
+        if (!response.success) return response;
+        commit('setToken', response.token);
+        commit('setUser', response.user);
+        return response;
     },
     async getUser({ commit }) {
         if (state.token === null) return false;
         const response = await Authentication.getUser(state.token);
-        if (!response.data || response.data.error || !response.data.user) {
+        if (!response.success) {
             commit('setToken', null);
             commit('setUser', null);
-            return false;
-        }
-        commit('setToken', response.data.token);
-        commit('setUser', response.data.user);
-        return true;
+            return response;
+        };
+        commit('setToken', response.token);
+        commit('setUser', response.user);
+        return response;
     },
     logout({ commit }) {
         commit('setToken', null);

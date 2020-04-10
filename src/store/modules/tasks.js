@@ -1,4 +1,4 @@
-import keys from '@/shared/keys';
+import keys from '@/store/keys';
 import Storage from '@/shared/storage';
 
 const state = {

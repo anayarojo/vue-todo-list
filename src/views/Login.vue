@@ -12,7 +12,7 @@
             </el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input v-model="form.password" v-on:keyup.enter="submitForm('form')" 
+            <el-input v-model="form.password" @change="submitForm('form')"
               type="password" placeholder="Contraseña" show-password>
               <i slot="prefix" class="el-input__icon el-icon-key"></i>
             </el-input>
@@ -73,23 +73,22 @@ import ComContainer from '@/components/ComContainer';
         },
       };
     },
-    computed: {},
+    beforeMount() {
+      if (this.$store.getters['session/isLogged']) {
+          this.$router.push('dashboard');
+      }
+    },
     methods: {
       async submitForm(formName) {
         return this.$refs[formName].validate(async (valid) => {
           if (!valid) return false;
+          const response = await this.login(this.form);
 
-          if (!await this.login(this.form)) {
-              // this.error = 'Usuario y/o contraseña incorrecto, favor de intentar nuevamente.';
-              // this.$notify.error({
-              //   title: 'Error',
-              //   message: 'Usuario y/o contraseña incorrecto, favor de intentar nuevamente.'
-              // });
-              this.$message({
-                showClose: true,
-                message: 'Usuario y/o contraseña incorrecto, favor de intentar nuevamente.',
+          if (!response.success) {
+              this.$notify.error({
+                title: 'Error',
                 duration: 5000,
-                type: 'error',
+                message: response.message,
               });
               return false;
           }
@@ -102,7 +101,7 @@ import ComContainer from '@/components/ComContainer';
       },
       cancel(formName) {
         this.resetForm(formName);
-        this.$router.go(-1);
+        this.$router.push({ name: 'Home' })
       },
       ...mapActions('session', [
         'login',
