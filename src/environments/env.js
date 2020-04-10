@@ -1,7 +1,7 @@
 
 export default {
     production: false,
-    apiUrl: 'http://api-todo-list.ranayarojo.com',
+    apiUrl: 'https://api-todo-list.ranayarojo.com',
     // apiUrl: 'http://127.0.0.1:8000',
     axiosConfig: {
         headers: {
