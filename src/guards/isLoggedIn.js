@@ -1,9 +1,9 @@
-import { Authentication } from '@/shared/api';
+import store from '../store';
 
 const isLoggedIn = async (to, from, next) => {
-    const user = await Authentication.getUser();
-    if ((to.name == 'Login' || to.name == 'Register') && user != null) next({ name: 'Dashboard' });
-    if ((to.name != 'Login' && to.name != 'Register') && user == null) next({ name: 'Login' });
+    const logged = store.getters['session/isLogged'];
+    if ((to.name == 'Login' || to.name == 'Register') && logged) next({ name: 'Dashboard' });
+    if ((to.name != 'Login' && to.name != 'Register') && !logged) next({ name: 'Login' });
     next();
 };
 
