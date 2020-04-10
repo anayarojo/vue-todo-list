@@ -7,27 +7,39 @@ export const Authentication = (function() {
     const _public = {};
     
     _public.register = async function(form) {
-        return await axios.post(`${apiBase}/register`, {
-            name: form.name,
-            email: form.email,
-            password: form.password,
-            password_confirmation: form.password_confirmation
-        });
+        try {
+            return await axios.post(`${apiBase}/register`, {
+                name: form.name,
+                email: form.email,
+                password: form.password,
+                password_confirmation: form.password_confirmation
+            });
+        } catch(exception) {
+            return exception.response;
+        }
     };
 
     _public.login = async function(form) {
-        return await axios.post(`${apiBase}/login`, {
-            email: form.email,
-            password: form.password
-        });
+        try {
+            return await axios.post(`${apiBase}/login`, {
+                email: form.email,
+                password: form.password
+            });
+        } catch(exception) {
+            return exception.response;
+        }
     };
 
     _public.getUser = async function(token) {
-        return await axios.get(`${apiBase}/user`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        try {
+            return await axios.get(`${apiBase}/user`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+        } catch(exception) {
+            return exception.response;
+        }
     };
 
     return _public;

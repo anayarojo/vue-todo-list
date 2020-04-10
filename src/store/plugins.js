@@ -1,21 +1,26 @@
-import keys from '@/store/keys';
+import keys from '@/shared/keys';
 import Storage from '@/shared/storage';
 
 const localStoragePlugin = (store) => {
     store.subscribe((mutation, state) => {
+
         switch(mutation.type) {
-            case 'setToken':
-                Storage.set(keys.TOKEB, state.token);
+            case 'session/setToken':
+                Storage.set(keys.TOKEN, state.session.token);
                 break;
-            case 'setUser':
-                Storage.set(keys.USER, state.user, true);
+            case 'session/setUser':
+                Storage.set(keys.USER, state.session.user, true);
                 break;
-            case 'addTask':
-            case 'updateTask':
-            case 'deleteTask':
-                Storage.set(keys.TASKS, state.tasks, true);
+            case 'tasks/addTask':
+            case 'tasks/updateTask':
+            case 'tasks/deleteTask':
+                Storage.set(keys.TASKS, state.tasks.all, true);
                 break;
         }
+
+        // console.log('mutation:', mutation);
+        // console.log('state:', state);
+
     });
 };
 

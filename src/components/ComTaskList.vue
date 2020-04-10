@@ -2,13 +2,13 @@
   <div class="component-task-list" :class="className">
     <com-form @add-new-task="addTask" />
     <com-container>
-      <el-card v-if="$store.state.tasks.length > 0" class="box-card" :body-style="{ padding: '20px 0px' }">
+      <el-card v-if="tasks.length > 0" class="box-card" :body-style="{ padding: '20px 0px' }">
         <com-task
-          v-for="(task, index) in $store.state.tasks"
+          v-for="(task, index) in tasks"
           :key="task.uuid"
           :index="index"
           :task="task"
-          :length="$store.state.tasks.length"
+          :length="tasks.length"
           @update-task="updateTask"
           @delete-task="deleteTask"
         />
@@ -45,8 +45,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-// import { Authentication } from '@/shared/api';
+import { mapGetters, mapActions, mapState } from 'vuex';
 import ComForm from '@/components/ComForm';
 import ComTask from '@/components/ComTask';
 import ComContainer from '@/components/ComContainer';
@@ -64,12 +63,19 @@ export default {
     },
   },
   computed: {
-    ...mapGetters([
+    ...mapGetters('session', [
       'isLogged',
     ]),
+    ...mapGetters('tasks', [
+      'completedTasks',
+      'pendingTasks',
+    ]),
+    ...mapState({
+      tasks: state => state.tasks.all 
+    }),
   },
   methods: {
-    ...mapActions([
+    ...mapActions('tasks', [
       'addTask',
       'updateTask',
       'deleteTask',

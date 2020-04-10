@@ -1,6 +1,5 @@
-import keys from '@/store/keys';
+import keys from '@/shared/keys';
 import Storage from '@/shared/storage';
-import Authentication from '@/api/authentication';
 
 const state = {
     all: Storage.get(keys.TASKS, true, '[]'),

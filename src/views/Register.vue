@@ -5,13 +5,6 @@
           <div slot="header" class="clearfix">
             <span>Crear cuenta</span>
           </div>
-          <el-alert v-if="error"
-            class="mb-5"
-            :title="error"
-            @close="error = null"
-            type="error"
-            show-icon>
-          </el-alert>
           <el-form ref="form" :model="form" :rules="rules">
             <el-form-item prop="name">
               <el-input v-model="form.name" placeholder="Nombre">
@@ -29,7 +22,8 @@
               </el-input>
             </el-form-item>
             <el-form-item prop="password_confirmation">
-              <el-input v-model="form.password_confirmation" type="password" placeholder="Confirmar contraseña" autocomplete="off">
+              <el-input v-model="form.password_confirmation" v-on:keyup.enter="submitForm('form')" 
+                type="password" placeholder="Confirmar contraseña" autocomplete="off">
                 <i slot="prefix" class="el-input__icon el-icon-lock"></i>
               </el-input>
             </el-form-item>
@@ -54,7 +48,8 @@
 </template>
 
 <script>
-import { Validators, Authentication } from "@/shared/api";
+import { mapActions } from 'vuex';
+import Validators from "@/api/validators";
 import ComContainer from '@/components/ComContainer';
 
   export default {
@@ -128,7 +123,6 @@ import ComContainer from '@/components/ComContainer';
             { validator: validatePass2, trigger: 'blur' },
           ],
         },
-        error: null,
       };
     },
     computed: {},
@@ -136,10 +130,16 @@ import ComContainer from '@/components/ComContainer';
       async submitForm(formName) {
         return this.$refs[formName].validate(async (valid) => {
           if (!valid) return false;
-          if (!await Authentication.register(this.form)) {
-              this.error = 'No fue posible crear la cuenta, favor de intentar en otro momento';
+
+          if (!await this.register(this.form)) {
+              this.error = 'No fue posible crear la cuenta, favor de intentar en otro momento.';
+              this.$notify.error({
+                title: 'Error',
+                message: 'No fue posible crear la cuenta, favor de intentar en otro momento.'
+              });
               return false;
           }
+
           this.$router.push('dashboard');
         });
       },
@@ -150,6 +150,9 @@ import ComContainer from '@/components/ComContainer';
         this.resetForm(formName);
         this.$router.go(-1);
       },
+      ...mapActions('session', [
+        'register',
+      ]),
     },
   };
 </script>

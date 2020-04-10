@@ -1,4 +1,4 @@
-import keys from '@/store/keys';
+import keys from '@/shared/keys';
 import Storage from '@/shared/storage';
 import Authentication from '@/api/authentication';
 
@@ -19,14 +19,14 @@ const mutations = {
 const actions = {
     async register({ commit }, form) {
         const response = await Authentication.register(form);
-        if (response.data.error) return false;
+        if (!response.data || response.data.error) return false;
         commit('setToken', response.data.token);
         commit('setUser', response.data.user);
         return true;
     },
     async login({ commit }, form) {
         const response = await Authentication.login(form);
-        if (response.data.error) return false;
+        if (!response.data || response.data.error) return false;
         commit('setToken', response.data.token);
         commit('setUser', response.data.user);
         return true;
@@ -34,7 +34,7 @@ const actions = {
     async getUser({ commit }) {
         if (state.token === null) return false;
         const response = await Authentication.getUser(state.token);
-        if (response.data.error || !response.data.user) {
+        if (!response.data || response.data.error || !response.data.user) {
             commit('setToken', null);
             commit('setUser', null);
             return false;
