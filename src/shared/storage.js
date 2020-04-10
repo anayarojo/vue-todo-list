@@ -2,9 +2,9 @@
 const Storage = (function() {
   const _public = {};
 
-  _public.get = function(key, serialized = false) {
+  _public.get = function(key, serialized = false, defaultValue = null) {
     return serialized ? 
-      JSON.parse(localStorage.getItem(key)) : 
+      JSON.parse(localStorage.getItem(key) || defaultValue) : 
       localStorage.getItem(key);
   };
 
