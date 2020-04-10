@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+
 import Home from '../views/Home.vue';
+import nextFactory from '@/guards/next';
 import auth from '@/guards/auth';
 
 Vue.use(VueRouter);
@@ -42,6 +44,33 @@ const routes = [
     },
   },
   {
+    path: '/categories',
+    name: 'Categories',
+    component: () => import('../views/app/Categories.vue'),
+    meta: {
+      title: 'Categorias',
+      middleware: auth,
+    },
+  },
+  {
+    path: '/lists',
+    name: 'Lists',
+    component: () => import('../views/app/Lists.vue'),
+    meta: {
+      title: 'Listas',
+      middleware: auth,
+    },
+  },
+  {
+    path: '/tasks',
+    name: 'Tasks',
+    component: () => import('../views/app/Tasks.vue'),
+    meta: {
+      title: 'Tareas',
+      middleware: auth,
+    },
+  },
+  {
     path: '*',
     name: 'Error404',
     component: () => import('../views/errors/404.vue'),
@@ -57,25 +86,6 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
-
-// Creates a `nextMiddleware()` function which not only
-// runs the default `next()` callback but also triggers
-// the subsequent Middleware function.
-function nextFactory(context, middleware, index) {
-  const subsequentMiddleware = middleware[index];
-  // If no subsequent Middleware exists,
-  // the default `next()` callback is returned.
-  if (!subsequentMiddleware) return context.next;
-
-  return (...parameters) => {
-    // Run the default Vue Router `next()` callback first.
-    context.next(...parameters);
-    // Then run the subsequent Middleware with a new
-    // `nextMiddleware()` callback.
-    const nextMiddleware = nextFactory(context, middleware, index + 1);
-    subsequentMiddleware({ ...context, next: nextMiddleware });
-  };
-}
 
 router.beforeEach((to, from, next) => {
   if (to.meta.middleware) {
@@ -97,17 +107,5 @@ router.beforeEach((to, from, next) => {
 
   return next();
 });
-  
-
-// router.beforeEach((to, from, next) => {
-//   next();
-// });
-
-// router.beforeResolve((to, from, next) => {
-//   next();
-// });
-
-// router.afterEach(() => {
-// });
 
 export default router;

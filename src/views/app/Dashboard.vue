@@ -11,13 +11,13 @@
         <el-card class="box-card" shadow="never">
           <div slot="header" class="clearfix">
             Categorias
-            <el-dropdown class="float-right" trigger="click">
+            <el-dropdown class="float-right" trigger="click" @command="handleCategoriesActions">
               <span class="el-dropdown-link">
                 Acciones<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item icon="el-icon-plus">Crear</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-folder">Administrar</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-plus" command="create">Crear</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-folder" command="admin">Administrar</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -30,13 +30,13 @@
         <el-card class="box-card" shadow="never">
           <div slot="header" class="clearfix">
             Listas
-            <el-dropdown class="float-right" trigger="click">
+            <el-dropdown class="float-right" trigger="click" @command="handleListsActions">
               <span class="el-dropdown-link">
                 Acciones<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item icon="el-icon-plus">Crear</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-folder">Administrar</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-plus" command="create">Crear</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-folder" command="admin">Administrar</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -49,13 +49,13 @@
         <el-card class="box-card" shadow="never">
           <div slot="header" class="clearfix">
             Tareas
-            <el-dropdown class="float-right" trigger="click">
+            <el-dropdown class="float-right" trigger="click" @command="handleTasksActions">
               <span class="el-dropdown-link">
                 Acciones<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item icon="el-icon-plus">Crear</el-dropdown-item>
-                <el-dropdown-item icon="el-icon-folder">Administrar</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-plus" command="create">Crear</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-folder" command="admin">Administrar</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -84,6 +84,36 @@ import Layout from '@/shared/layout';
     created() {
     },
     methods: {
+      handleCategoriesActions(command) {
+        switch(command) {
+          case 'create':
+            this.$router.push({ name: 'Categories' });
+            break;
+          case 'admin':
+            this.$router.push({ name: 'Categories' });
+            break;
+        }
+      },
+      handleListsActions(command) {
+        switch(command) {
+          case 'create':
+            this.$router.push({ name: 'Lists' });
+            break;
+          case 'admin':
+            this.$router.push({ name: 'Lists' });
+            break;
+        }
+      },
+      handleTasksActions(command) {
+        switch(command) {
+          case 'create':
+            this.$router.push({ name: 'Tasks' });
+            break;
+          case 'admin':
+            this.$router.push({ name: 'Tasks' });
+            break;
+        }
+      },
     },
   };
 </script>
