@@ -10,9 +10,10 @@
       <input
         type="text"
         class="flex-auto text-left"
-        :class="task.completed ? 'line-through' : ''"
+        :class="inputClass"
         v-model="task.description"
         v-on:keyup.enter="updateTask"
+        v-on:change="isEditing = true"
       />
       <i
         v-on:click="deleteTask"
@@ -38,15 +39,26 @@ export default {
       type: Object,
     },
   },
+  data() {
+    return {
+      isEditing: false,
+    };
+  },
   computed: {
     icon() {
       return this.task.completed === true ? 'el-icon-check' : 'el-icon-minus';
+    },
+    inputClass() {
+      const completed = this.task.completed ? 'line-through' : ''
+      const edit = this.isEditing === true ? 'text-gray-500' : 'text-black';
+      return `${edit} ${completed}`;
     },
   },
   methods: {
     updateTask() {
       if (this.task.description.trim() === '') return;
       this.$emit('update-task', this.task);
+      this.isEditing = false;
     },
     deleteTask() {
       this.$emit('delete-task', this.task);
