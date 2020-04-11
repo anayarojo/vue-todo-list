@@ -13,13 +13,15 @@
         </div>
 
         <div>
-          
+
           <el-alert
             title="Caracteristicas en desarrollo, disculpe las molestias."
             type="info"
             show-icon>
           </el-alert>
           <br>
+
+
 
           <group-form></group-form>
 
