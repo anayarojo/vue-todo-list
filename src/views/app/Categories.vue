@@ -10,9 +10,9 @@
             <el-breadcrumb-item>Administrar</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
-        <div class="grid grid-cols-3 grid-flow-col gap-4">
+        <div>
           
-          
+          <group-form></group-form>
 
         </div>
       </el-card>
@@ -23,12 +23,14 @@
 <script>
 import Layout from '@/shared/layout';
 import AppHeader from '@/components/AppHeader';
+import GroupForm from '@/components/GroupForm';
 
   export default {
     name: 'Categories',
     components: {
       Layout,
       AppHeader,
+      GroupForm,
     },
     data() {
       return {};

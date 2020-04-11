@@ -129,7 +129,7 @@ import ComContainer from '@/components/ComContainer';
       async submitForm(formName) {
         return this.$refs[formName].validate(async (valid) => {
           if (!valid) return false;
-          const response = await this.login(this.form);
+          const response = await this.register(this.form);
 
           if (!response.success) {
               this.$notify.error({
