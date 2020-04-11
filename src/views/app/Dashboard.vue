@@ -15,7 +15,8 @@
           </el-breadcrumb>
         </div>
         <br>
-        <div class="grid grid-cols-3 grid-flow-col gap-4">
+        <div class="grid grid-flow-row grid-cols-1 lg:grid-cols-3 gap-4">
+
           <el-card class="box-card" shadow="never">
             <div slot="header" class="clearfix">
               Categorias
