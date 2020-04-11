@@ -10,9 +10,13 @@
             <el-breadcrumb-item>Administrar</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
-        <div class="grid grid-cols-3 grid-flow-col gap-4">
+        <div class="grid">
           
-          
+          <el-alert
+            title="Caracteristicas en desarrollo, disculpe las molestias."
+            type="info"
+            show-icon>
+          </el-alert>
 
         </div>
       </el-card>
