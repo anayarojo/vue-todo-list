@@ -14,10 +14,10 @@ const axiosConfig = {
 export const Tasks = (function() {
     const _public = {};
     
-    _public.list = async function(list) {
+    _public.list = async function(list = null) {
         try {
             return handle(await axios.get(
-                `${apiBase}/lists/${list}/tasks`, 
+                list ? `${apiBase}/tasks/${list}` : `${apiBase}/tasks`,
                 axiosConfig
             ));
         } catch(exception) {
@@ -25,10 +25,10 @@ export const Tasks = (function() {
         }
     };
 
-    _public.get = async function(list, task) {
+    _public.get = async function(task) {
         try {
             return handle(await axios.get(
-                `${apiBase}/lists/${list}/tasks/${task}`, 
+                `${apiBase}/tasks/${task}`, 
                 axiosConfig
             ));
         } catch(exception) {
@@ -36,10 +36,10 @@ export const Tasks = (function() {
         }
     };
 
-    _public.create = async function(list, form) {
+    _public.create = async function(form, list = null) {
         try {
             return handle(await axios.post(
-                    `${apiBase}/lists/${list}/tasks`,   {
+                    list ? `${apiBase}/tasks/${list}` : `${apiBase}/tasks`,   {
                     description: form.description,
                     completed: form.completed,
                 }, 
@@ -50,10 +50,10 @@ export const Tasks = (function() {
         }
     };
 
-    _public.update = async function(list, task, form) {
+    _public.update = async function(task, form) {
         try {
             return handle(await axios.put(
-                `${apiBase}/lists/${list}/tasks/${task}`, {
+                `${apiBase}/tasks/${task}`, {
                     description: form.description,
                     completed: form.completed,
                 },
@@ -64,10 +64,10 @@ export const Tasks = (function() {
         }
     };
 
-    _public.delete = async function(list, task) {
+    _public.delete = async function(task) {
         try {
             return handle(await axios.delete(
-                `${apiBase}/lists/${list}/tasks/${task}`,
+                `${apiBase}/tasks/${task}`,
                 axiosConfig
             ));
         } catch(exception) {

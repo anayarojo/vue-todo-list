@@ -28,28 +28,28 @@ const mutations = {
 };
 
 const actions = {
-    async listTasks ({ commit }, list) {
+    async listTasks ({ commit }, list = null) {
         const response = await api.list(list);
         if (!response.success) return response;
         commit('set', response.data);
         return response;
     },
-    async createTask ({ commit }, list, form) {
-        const response = await api.create(list, form);
+    async createTask ({ commit }, form, list = null) {
+        const response = await api.create(form, list);
         if (!response.success) return response;
         commit('add', response.data);
         return response;
     },
-    async updateTask ({ commit }, list, id, form) {
-        const response = await api.update(list, id, form);
+    async updateTask ({ commit }, id, form) {
+        const response = await api.update(id, form);
         if (!response.success) return response;
         commit('update', response.data);
         return response;
     },
-    async deleteTask ({ commit }, list, id) {
-        const response = await api.delete(list, id);
+    async deleteTask ({ commit }, id) {
+        const response = await api.delete(id);
         if (!response.success) return response;
-        commit('delete', { list, id });
+        commit('delete', { id });
         return response;
     },
 };

@@ -46,7 +46,7 @@ const actions = {
         commit('update', response.data);
         return response;
     },
-    async deleteTask ({ commit }, id) {
+    async deleteCategory ({ commit }, id) {
         const response = await api.delete(id);
         if (!response.success) return response;
         commit('delete', { id });

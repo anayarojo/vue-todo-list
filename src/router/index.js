@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import Home from '../views/Home.vue';
+import Home from '../views/web/Home.vue';
 import nextFactory from '@/guards/next';
 import auth from '@/guards/auth';
 
@@ -19,7 +19,7 @@ const routes = [
   {
     path: '/register',
     name: 'Register',
-    component: () => import('../views/Register.vue'),
+    component: () => import('../views/web/Register.vue'),
     meta: {
       title: 'Registro',
       middleware: auth,
@@ -28,7 +28,7 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('../views/Login.vue'),
+    component: () => import('../views/web/Login.vue'),
     meta: {
       title: 'Login',
       middleware: auth,
