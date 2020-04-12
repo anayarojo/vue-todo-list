@@ -16,31 +16,20 @@
             <div class="text-center">
                 <i class="el-icon-notebook-1 text-6xl mb-3"></i>
                 <p>Aún no tienes categorias registradas</p>
-                <el-link class="-mt-1 text-base" type="primary" @click="showDialog = true">
+                <el-link class="-mt-1 text-base" type="primary">
                     Nueva
                 </el-link>
             </div>
         </div>
-        <group-dialog title="Nueva categoría" :visible="showDialog" 
-          @submit="submitDialog" @cancel="cancel" />
     </el-card>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import GroupDialog from '@/components/common/GroupDialog';
 
 export default {
   name: 'CategoriesWidget',
-  components: {
-    GroupDialog
-  },
   props: {
-  },
-  data() {
-    return {
-      showDialog: false
-    };
   },
   created() {
       this.listCategories();
@@ -67,23 +56,6 @@ export default {
       'updateCategory',
       'deleteCategory',
     ]),
-    async submitDialog(form) {
-      const response = await this.createCategory(form);
-
-      if (!response.success) {
-          this.$notify.error({
-            title: 'Error',
-            duration: 5000,
-            message: response.message,
-          });
-          return false;
-      }
-
-      this.showDialog = false;
-    },
-    cancel() {
-      this.showDialog = false;
-    }
   }
 };
 </script>
