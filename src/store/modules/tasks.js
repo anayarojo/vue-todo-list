@@ -1,24 +1,26 @@
-import keys from '@/store/keys';
-import Storage from '@/shared/storage';
+import api from '@/api/tasks';
 
 const state = {
-    all: Storage.get(keys.TASKS, true, '[]'),
+    all: [],
 };
 
 const mutations = {
-    addTask(state, task) {
-        state.all.push(task);
+    set(state, tasks) {
+        state.all = tasks;
     },
-    updateTask(state, task) {
+    add(state, tasks) {
+        state.all.push(tasks);
+    },
+    update(state, tasks) {
         state.all.forEach((element, index) => {
-            if (element.uuid === task.uuid) {
-                state.all[index] = task;
+            if (element.id === tasks.id) {
+                state.all[index] = tasks;
             }
         });
     },
-    deleteTask(state, task) {
+    delete(state, tasks) {
         state.all.forEach((element, index) => {
-            if (element.uuid === task.uuid) {
+            if (element.id === tasks.id) {
                 state.all.splice(index, 1);
             }
         });
@@ -26,21 +28,33 @@ const mutations = {
 };
 
 const actions = {
-    addTask ({ commit }, task) {
-        commit('addTask', task);
+    async listTasks ({ commit }, list) {
+        const response = await api.list(list);
+        if (!response.success) return response;
+        commit('set', response.data);
+        return response;
     },
-    updateTask ({ commit }, task) {
-        commit('updateTask', task);
+    async createTask ({ commit }, list, form) {
+        const response = await api.create(list, form);
+        if (!response.success) return response;
+        commit('add', response.data);
+        return response;
     },
-    deleteTask ({ commit }, task) {
-        commit('deleteTask', task);
+    async updateTask ({ commit }, list, id, form) {
+        const response = await api.update(list, id, form);
+        if (!response.success) return response;
+        commit('update', response.data);
+        return response;
+    },
+    async deleteTask ({ commit }, list, id) {
+        const response = await api.delete(list, id);
+        if (!response.success) return response;
+        commit('delete', { list, id });
+        return response;
     },
 };
 
-const getters = {
-    completedTasks: state => state.all.filter(task => task.completed === true),
-    pendingTasks: state => state.all.filter(task => task.completed === false)
-};
+const getters = {};
 
 export default {
     namespaced: true,

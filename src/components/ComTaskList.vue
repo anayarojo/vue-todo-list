@@ -66,16 +66,16 @@ export default {
     ...mapGetters('session', [
       'isLogged',
     ]),
-    ...mapGetters('tasks', [
+    ...mapGetters('localTasks', [
       'completedTasks',
       'pendingTasks',
     ]),
     ...mapState({
-      tasks: state => state.tasks.all 
+      tasks: state => state.localTasks.all 
     }),
   },
   methods: {
-    ...mapActions('tasks', [
+    ...mapActions('localTasks', [
       'addTask',
       'updateTask',
       'deleteTask',

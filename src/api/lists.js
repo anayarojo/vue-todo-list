@@ -1,80 +1,78 @@
 import env from "@/environments/env";
 import axios from "axios";
-import { handle } from "./response";
+import store from '../store';
 
+import { handle } from "./response";
 const apiBase = `${env.apiUrl}/api`;
+
+const axiosConfig = {
+    headers: {
+        'Authorization': `Bearer ${store != null ? store.state.session.token : ''}`
+    }
+};
 
 export const Lists = (function() {
     const _public = {};
-    const _private = {};
     
-    _public.list = async function(token, category = null) {
+    _public.list = async function(category = null) {
         try {
             return handle(await axios.get(
                 category ? `${apiBase}/lists/${category}` : `${apiBase}/lists`, 
-                _private.getConfig(token)
+                axiosConfig
             ));
         } catch(exception) {
             return handle(exception.response);
         }
     };
 
-    _public.get = async function(token, list) {
+    _public.get = async function(list) {
         try {
             return handle(await axios.get(
                 `${apiBase}/lists/${list}`, 
-                _private.getConfig(token)
+                axiosConfig
             ));
         } catch(exception) {
             return handle(exception.response);
         }
     };
 
-    _public.create = async function(token, form, category = null) {
+    _public.create = async function(form, category = null) {
         try {
             return handle(await axios.post(
                 category ? `${apiBase}/lists/${category}` : `${apiBase}/lists`,   {
                     name: form.name,
                     description: form.description
                 }, 
-                _private.getConfig(token)
+                axiosConfig
             ));
         } catch(exception) {
             return handle(exception.response);
         }
     };
 
-    _public.update = async function(token, list, form) {
+    _public.update = async function(list, form) {
         try {
             return handle(await axios.put(
                 `${apiBase}/lists/${list}`, {
                     name: form.name,
                     description: form.description
                 },
-                _private.getConfig(token)
+                axiosConfig
             ));
         } catch(exception) {
             return handle(exception.response);
         }
     };
 
-    _public.delete = async function(token, list) {
+    _public.delete = async function(list) {
         try {
             return handle(await axios.delete(
                 `${apiBase}/lists/${list}`,
-                _private.getConfig(token)
+                axiosConfig
             ));
         } catch(exception) {
             return handle(exception.response);
         }
-    };
-
-    _private.getConfig = function(token) {
-        return {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        };
     };
 
     return _public;

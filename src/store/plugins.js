@@ -11,10 +11,10 @@ const localStoragePlugin = (store) => {
             case 'session/setUser':
                 Storage.set(keys.USER, state.session.user, true);
                 break;
-            case 'tasks/addTask':
-            case 'tasks/updateTask':
-            case 'tasks/deleteTask':
-                Storage.set(keys.TASKS, state.tasks.all, true);
+            case 'localTasks/addTask':
+            case 'localTasks/updateTask':
+            case 'localTasks/deleteTask':
+                Storage.set(keys.TASKS, state.localTasks.all, true);
                 break;
         }
 
