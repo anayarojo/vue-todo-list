@@ -28,6 +28,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import Helper from '@/shared/helper';
 import GroupDialog from '@/components/common/GroupDialog';
 
 export default {
@@ -70,14 +71,7 @@ export default {
     async submitDialog(form) {
       const response = await this.createCategory(form);
 
-      if (!response.success) {
-          this.$notify.error({
-            title: 'Error',
-            duration: 5000,
-            message: response.message,
-          });
-          return false;
-      }
+      if (!response.success) return Helper.handleError(this, response);
 
       this.showDialog = false;
     },

@@ -5,21 +5,21 @@
         <div slot="header" class="clearfix">
           <span>Iniciar sesión</span>
         </div>
-        <el-form ref="form" :model="form" :rules="rules">
+        <el-form ref="loginForm" :model="form" :rules="rules">
           <el-form-item prop="email">
             <el-input v-model="form.email" type="email" placeholder="Correo electrónico">
               <i slot="prefix" class="el-input__icon el-icon-message"></i>
             </el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input v-model="form.password" @change="submitForm('form')"
+            <el-input v-model="form.password" @change="submit"
               type="password" placeholder="Contraseña" show-password>
               <i slot="prefix" class="el-input__icon el-icon-key"></i>
             </el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('form')" round>Iniciar</el-button>
-            <el-button @click="cancel('form')" round>Cancelar</el-button>
+            <el-button type="primary" @click="submit" round>Iniciar</el-button>
+            <el-button @click="cancel" round>Cancelar</el-button>
           </el-form-item>
         </el-form>
       </el-card>
@@ -79,8 +79,8 @@ import ComContainer from '@/components/ComContainer';
       }
     },
     methods: {
-      async submitForm(formName) {
-        return this.$refs[formName].validate(async (valid) => {
+      async submit() {
+        return this.$refs['loginForm'].validate(async (valid) => {
           if (!valid) return false;
           const response = await this.login(this.form);
 
@@ -96,11 +96,11 @@ import ComContainer from '@/components/ComContainer';
           this.$router.push('dashboard');
         });
       },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+      reset() {
+        this.$refs['loginForm'].resetFields();
       },
-      cancel(formName) {
-        this.resetForm(formName);
+      cancel() {
+        this.reset();
         this.$router.push({ name: 'Home' })
       },
       ...mapActions('session', [

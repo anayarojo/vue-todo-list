@@ -1,74 +1,67 @@
 import env from "@/environments/env";
 import axios from "axios";
-import store from '../store';
 
-import { handle } from "./response";
+import { handle, getConfig } from "./response";
 const apiBase = `${env.apiUrl}/api`;
-
-const axiosConfig = {
-    headers: {
-        'Authorization': `Bearer ${store != null ? store.state.session.token : ''}`
-    }
-};
 
 export const Lists = (function() {
     const _public = {};
     
-    _public.list = async function(category = null) {
+    _public.list = async function(token, category = null) {
         try {
             return handle(await axios.get(
                 category ? `${apiBase}/lists/${category}` : `${apiBase}/lists`, 
-                axiosConfig
+                getConfig(token)
             ));
         } catch(exception) {
             return handle(exception.response);
         }
     };
 
-    _public.get = async function(list) {
+    _public.get = async function(token, list) {
         try {
             return handle(await axios.get(
                 `${apiBase}/lists/${list}`, 
-                axiosConfig
+                getConfig(token)
             ));
         } catch(exception) {
             return handle(exception.response);
         }
     };
 
-    _public.create = async function(form, category = null) {
+    _public.create = async function(token, form, category = null) {
         try {
             return handle(await axios.post(
                 category ? `${apiBase}/lists/${category}` : `${apiBase}/lists`,   {
                     name: form.name,
                     description: form.description
                 }, 
-                axiosConfig
+                getConfig(token)
             ));
         } catch(exception) {
             return handle(exception.response);
         }
     };
 
-    _public.update = async function(list, form) {
+    _public.update = async function(token, list, form) {
         try {
             return handle(await axios.put(
                 `${apiBase}/lists/${list}`, {
                     name: form.name,
                     description: form.description
                 },
-                axiosConfig
+                getConfig(token)
             ));
         } catch(exception) {
             return handle(exception.response);
         }
     };
 
-    _public.delete = async function(list) {
+    _public.delete = async function(token, list) {
         try {
             return handle(await axios.delete(
                 `${apiBase}/lists/${list}`,
-                axiosConfig
+                getConfig(token)
             ));
         } catch(exception) {
             return handle(exception.response);

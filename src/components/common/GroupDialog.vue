@@ -8,7 +8,7 @@
                 </el-input>
             </el-form-item>
             <el-form-item prop="description">
-                <el-input v-model="form.description" @change="submit"
+                <el-input v-model="form.description"
                     type="textarea" placeholder="Descripción"
                     maxlength="250" show-word-limit>
                     <i slot="prefix" class="el-input__icon el-icon-reading"></i>

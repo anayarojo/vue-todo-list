@@ -28,26 +28,26 @@ const mutations = {
 };
 
 const actions = {
-    async listTasks ({ commit }, list = null) {
-        const response = await api.list(list);
+    async listTasks ({ rootState, commit }, list = null) {
+        const response = await api.list(rootState.session.token, list);
         if (!response.success) return response;
         commit('set', response.data);
         return response;
     },
-    async createTask ({ commit }, form, list = null) {
-        const response = await api.create(form, list);
+    async createTask ({ rootState, commit }, form, list = null) {
+        const response = await api.create(rootState.session.token, form, list);
         if (!response.success) return response;
         commit('add', response.data);
         return response;
     },
-    async updateTask ({ commit }, id, form) {
-        const response = await api.update(id, form);
+    async updateTask ({ rootState, commit }, id, form) {
+        const response = await api.update(rootState.session.token, id, form);
         if (!response.success) return response;
         commit('update', response.data);
         return response;
     },
-    async deleteTask ({ commit }, id) {
-        const response = await api.delete(id);
+    async deleteTask ({ rootState, commit }, id) {
+        const response = await api.delete(rootState.session.token, id);
         if (!response.success) return response;
         commit('delete', { id });
         return response;

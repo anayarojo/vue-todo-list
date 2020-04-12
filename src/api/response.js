@@ -1,4 +1,3 @@
-
 export const errors = {
     token_invalid: 'El token es invalido.',
     token_expired: 'El token ya expiró.',
@@ -9,12 +8,22 @@ export const errors = {
     user_not_found: 'No se encontró al usuario.',
 };
 
+export const getConfig = (token) => {
+    return {
+        headers: {
+            'Authorization': `Bearer ${token != null ? token : ''}`
+        }
+    };
+};
+
 export const handle = (resp) => {
     const success = resp.data != null && resp.data.error == null;
     const response = resp.data;
+
     response.success = success;
     if (!response.success) {
         response.message = response.error ? errors[response.error] : 'Algo salió mal.';
     }
+
     return response;
 };
