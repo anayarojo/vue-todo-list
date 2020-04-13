@@ -11,7 +11,7 @@
               <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item icon="el-icon-lock" command="logout">Cerrar sesión</el-dropdown-item>
+                <el-dropdown-item icon="el-icon-lock" command="logout">Cerrar sesión</el-dropdown-item>
               </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -19,10 +19,12 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'AppHeader',
+  components: {
+  },
   props: {
     title: {
       type: String,
@@ -37,9 +39,6 @@ export default {
     ...mapGetters('session', [
       'isLogged',
     ]),
-    ...mapState({
-      user: state => state.session.user,
-    }),
   },
   methods: {
     handleUserActions(command) {

@@ -1,7 +1,7 @@
 <template>
   <layout name="App">
     <div class="view">
-      <app-header title="Dashboard"></app-header>
+      <app-header title="Tareas"></app-header>
       <el-card class="box-card">
         <el-alert
           title="Caracteristicas en desarrollo, disculpe las molestias."
@@ -11,16 +11,13 @@
         <div slot="header" class="clearfix">
           <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/' }">Inicio</el-breadcrumb-item>
-            <el-breadcrumb-item>Dashboard</el-breadcrumb-item>
+            <el-breadcrumb-item>Tareas</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
         <br>
-        <div class="grid grid-flow-row grid-cols-1 lg:grid-cols-3 gap-4">
-
-          <categories-widget/>
-          <lists-widget/>
-          <tasks-widget/>
-
+        <div class="xl:w-4/12 lg:w-6/12 md:w-8/12 mt-5 mx-auto">
+          <category-selector class="mb-3"></category-selector>
+          <list-selector class="mb-3"></list-selector>
         </div>
       </el-card>
     </div>
@@ -30,18 +27,16 @@
 <script>
 import Layout from '@/shared/layout';
 import AppHeader from '@/components/AppHeader';
-import CategoriesWidget from '@/components/categories/Widget';
-import ListsWidget from '@/components/lists/Widget';
-import TasksWidget from '@/components/tasks/Widget';
+import CategorySelector from '@/components/tasks/CategorySelector'
+import ListSelector from '@/components/tasks/ListSelector'
 
   export default {
     name: 'Dashboard',
     components: {
       Layout,
       AppHeader,
-      CategoriesWidget,
-      ListsWidget,
-      TasksWidget,
+      CategorySelector,
+      ListSelector,
     },
     data() {
       return {};
