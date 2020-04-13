@@ -4,7 +4,7 @@
       <app-header title="Tareas"></app-header>
       <el-card class="box-card">
         <el-alert
-          title="Caracteristicas en desarrollo, disculpe las molestias."
+          title="Caracteristicas en proceso de desarrollo, disculpe las molestias."
           type="info"
           show-icon>
         </el-alert>
