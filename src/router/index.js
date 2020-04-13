@@ -44,33 +44,6 @@ const routes = [
     },
   },
   {
-    path: '/categories',
-    name: 'Categories',
-    component: () => import('../views/app/Categories.vue'),
-    meta: {
-      title: 'Categorias',
-      middleware: auth,
-    },
-  },
-  {
-    path: '/lists',
-    name: 'Lists',
-    component: () => import('../views/app/Lists.vue'),
-    meta: {
-      title: 'Listas',
-      middleware: auth,
-    },
-  },
-  {
-    path: '/tasks',
-    name: 'Tasks',
-    component: () => import('../views/app/Tasks.vue'),
-    meta: {
-      title: 'Tareas',
-      middleware: auth,
-    },
-  },
-  {
     path: '*',
     name: 'Error404',
     component: () => import('../views/errors/404.vue'),

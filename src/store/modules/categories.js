@@ -54,7 +54,14 @@ const actions = {
     },
 };
 
-const getters = {};
+const getters = {
+    options: state => state.all.map(item => { 
+        return { 
+            value: item.id, 
+            label: item.name 
+        };
+    }),
+};
 
 export default {
     namespaced: true,
