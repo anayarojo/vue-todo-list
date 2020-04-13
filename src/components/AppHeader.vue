@@ -7,8 +7,8 @@
           <el-avatar icon="el-icon-user-solid"></el-avatar>
           <el-dropdown v-if="user" class="ml-3" trigger="click" @command="handleUserActions">
               <span class="el-dropdown-link">
-              {{ user.name }}
-              <i class="el-icon-arrow-down el-icon--right"></i>
+                {{ user.name }}
+                <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item icon="el-icon-lock" command="logout">Cerrar sesión</el-dropdown-item>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapState } from 'vuex';
 
 export default {
   name: 'AppHeader',
@@ -39,6 +39,9 @@ export default {
     ...mapGetters('session', [
       'isLogged',
     ]),
+    ...mapState({
+      user: state => state.session.user 
+    }),
   },
   methods: {
     handleUserActions(command) {
