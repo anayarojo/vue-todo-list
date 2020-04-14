@@ -1,11 +1,11 @@
 <template>
-  <component :is="layout">
+  <div class="w-full min-h-screen bg-gray-100">
     <transition name="fade" mode="out-in">
       <keep-alive>
-        <router-view :layout.sync="layout"/>
+        <router-view />
       </keep-alive>
     </transition>
-  </component>
+  </div>
 </template>
 
 <script>
@@ -14,7 +14,7 @@ export default {
   components: {},
   data() {
     return {
-      layout: 'div',
+      // layout: 'div',
     };
   },
   created() {
