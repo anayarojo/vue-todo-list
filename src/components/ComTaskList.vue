@@ -1,6 +1,6 @@
 <template>
   <div class="component-task-list" :class="className">
-    <el-card v-if="tasks.length > 0" class="box-card" :body-style="{ padding: '20px 0px' }">
+    <el-card v-if="tasks.length > 0" class="box-card" :shadow="shadow" :body-style="{ padding: '20px 0px' }">
         <com-task
           v-for="(task, index) in tasks" :key="task.id || task.uuid" 
           :index="index" :task="task" :length="tasks.length"
@@ -21,6 +21,10 @@ export default {
   props: {
     tasks: {
       type: Array,
+    },
+    shadow: {
+      type: String,
+      default: 'always',
     },
     className: {
       type: String,

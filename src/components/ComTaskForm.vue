@@ -1,5 +1,5 @@
 <template>
-  <div class="component-task-form">
+  <div class="component-task-form" :class="className">
     <el-card class="box-card" :shadow="shadow">
       <input v-model="description" v-on:keyup.enter="submit"
         type="text" class="w-full outline-none" placeholder="¿Qué pendiente hay?"
@@ -16,6 +16,9 @@ export default {
       type: String,
       default: 'always',
     },
+    className: {
+      type: String,
+    },
   },
   data() {
     return {
@@ -26,7 +29,7 @@ export default {
     submit: function() {
       if (this.description.trim() !== '') {
           this.$emit('add-task', this.description.trim());
-          this.input = '';  
+          this.description = '';  
       }
     },
   },

@@ -32,7 +32,7 @@
 import Validators from "@/api/validators";
 
   export default {
-    name: 'Register',
+    name: 'ComRegisterForm',
     data() {
       const validateEmailAvailability = (rule, value, callback) => {
         Validators.emailAvailability(value).then((available) => {

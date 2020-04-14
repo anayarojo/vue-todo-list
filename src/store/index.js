@@ -4,7 +4,7 @@ import session from '@/store/modules/session';
 import localTasks from '@/store/modules/localTasks';
 import categories from '@/store/modules/categories';
 import lists from '@/store/modules/lists';
-import tasks from '@/store/modules/lists';
+import tasks from '@/store/modules/tasks';
 import plugins from '@/store/plugins';
 
 Vue.use(Vuex);
