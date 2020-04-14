@@ -1,4 +1,5 @@
 import api from '@/api/tasks';
+import dynamic from '@/shared/sort';
 
 const state = {
     all: [],
@@ -32,7 +33,7 @@ const actions = {
         list = list || null;
         const response = await api.list(rootState.session.token, list);
         if (!response.success) return response;
-        commit('set', response.data);
+        commit('set', response.data.sort(dynamic('id')));
         return response;
     },
     async createTask ({ rootState, commit }, { form, list }) {
