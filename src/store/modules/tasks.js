@@ -29,7 +29,7 @@ const mutations = {
 };
 
 const actions = {
-    async listTasks ({ rootState, commit }, { list } = {}) {
+    async loadTasks ({ rootState, commit }, { list } = {}) {
         list = list || null;
         const response = await api.list(rootState.session.token, list);
         if (!response.success) return response;
@@ -54,6 +54,9 @@ const actions = {
         if (!response.success) return response;
         commit('delete', { id });
         return response;
+    },
+    cleanTasks({ commit }) {
+        commit('set', []);
     },
 };
 

@@ -35,9 +35,6 @@ import ComTaskList from '@/components/ComTaskList';
     data() {
       return {};
     },
-    mounted() {
-      this.loadTasks();
-    },
     computed: {
       ...mapGetters('session', [
         'isLogged',
@@ -47,14 +44,6 @@ import ComTaskList from '@/components/ComTaskList';
       }),
     },
     methods: {
-      async loadTasks() {
-        const response = await this.$store.dispatch('tasks/listTasks');
-        if (!response.success) {
-          Helper.handleError(this, response);
-        } else {
-          Helper.handleSuccess(this, 'Tareas cargadas correctamente.', 'Cargadas');
-        }
-      },
       async createTask(description) {
         const response = await this.$store.dispatch('tasks/createTask', { form: { description } });
         if (!response.success) {
