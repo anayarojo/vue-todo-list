@@ -37,8 +37,8 @@ import ComTaskList from '@/components/ComTaskList';
     data() {
       return {};
     },
-    async mounted() {
-      await this.loadTasks();
+    mounted() {
+      this.loadTasks();
     },
     computed: {
       ...mapGetters('session', [
