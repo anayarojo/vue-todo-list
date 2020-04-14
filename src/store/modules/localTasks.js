@@ -1,4 +1,5 @@
 import keys from '@/store/keys';
+import Guid from '@/shared/guid';
 import Storage from '@/shared/storage';
 
 const state = {
@@ -26,8 +27,12 @@ const mutations = {
 };
 
 const actions = {
-    addTask ({ commit }, task) {
-        commit('addTask', task);
+    addTask ({ commit }, description) {
+        commit('addTask', {
+            id: Guid.get(),
+            description: description,
+            completed: false,
+        });
     },
     updateTask ({ commit }, task) {
         commit('updateTask', task);

@@ -1,19 +1,17 @@
 <template>
-  <div class="component-task">
+  <div class="component-task-item">
     <div class="flex flex-row items-center justify-between px-5">
       <el-checkbox
         v-model="task.completed"
         @change="updateTask"
-        class="mr-3"
-        label=""
+        class="mr-3" label=""
       />
       <input
-        type="text"
-        class="flex-auto text-left"
-        :class="inputClass"
         v-model="task.description"
         v-on:keyup.enter="updateTask"
         v-on:change="isEditing = true"
+        type="text" class="flex-auto text-left"
+        :class="inputClass"
       />
       <i
         v-on:click="deleteTask"
@@ -26,7 +24,7 @@
 
 <script>
 export default {
-  name: 'ComTask',
+  name: 'ComTaskItem',
   components: {},
   props: {
     index: {
@@ -66,10 +64,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-textarea:focus,
-input:focus {
-  outline: none;
-}
-</style>
