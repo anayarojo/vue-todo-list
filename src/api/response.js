@@ -17,8 +17,8 @@ export const getConfig = (token) => {
 };
 
 export const handle = (resp) => {
-    const success = resp.data != null && resp.data.error == null;
-    const response = resp.data;
+    const success = resp.status == 200 || resp.status == 201;
+    const response = typeof resp.data !== 'string' ? resp.data : { view: resp.data };
 
     response.success = success;
     if (!response.success) {

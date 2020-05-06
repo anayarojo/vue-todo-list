@@ -17,18 +17,20 @@ const mutations = {
 };
 
 const actions = {
-    async register({ commit }, form) {
+    async register({ commit, dispatch }, form) {
         const response = await Authentication.register(form);
         if (!response.success) return response;
         commit('setToken', response.token);
         commit('setUser', response.user);
+        dispatch('tasks/loadTasks', {}, { root: true });
         return response;
     },
-    async login({ commit }, form) {
+    async login({ commit, dispatch }, form) {
         const response = await Authentication.login(form);
         if (!response.success) return response;
         commit('setToken', response.token);
         commit('setUser', response.user);
+        dispatch('tasks/loadTasks', {}, { root: true });
         return response;
     },
     async getUser({ commit }) {
@@ -38,14 +40,15 @@ const actions = {
             commit('setToken', null);
             commit('setUser', null);
             return response;
-        };
+        }
         commit('setToken', response.token);
         commit('setUser', response.user);
         return response;
     },
-    logout({ commit }) {
+    logout({ commit, dispatch }) {
         commit('setToken', null);
         commit('setUser', null);
+        dispatch('tasks/cleanTasks', null, { root: true });
     },
 };
 

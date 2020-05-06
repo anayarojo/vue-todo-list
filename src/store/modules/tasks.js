@@ -1,4 +1,5 @@
 import api from '@/api/tasks';
+import dynamic from '@/shared/sort';
 
 const state = {
     all: [],
@@ -28,29 +29,34 @@ const mutations = {
 };
 
 const actions = {
-    async listTasks ({ rootState, commit }, list = null) {
+    async loadTasks ({ rootState, commit }, { list } = {}) {
+        list = list || null;
         const response = await api.list(rootState.session.token, list);
         if (!response.success) return response;
-        commit('set', response.data);
+        commit('set', response.data.sort(dynamic('id')));
         return response;
     },
-    async createTask ({ rootState, commit }, form, list = null) {
+    async createTask ({ rootState, commit }, { form, list }) {
+        list = list || null;
         const response = await api.create(rootState.session.token, form, list);
         if (!response.success) return response;
         commit('add', response.data);
         return response;
     },
-    async updateTask ({ rootState, commit }, id, form) {
+    async updateTask ({ rootState, commit }, { id, form }) {
         const response = await api.update(rootState.session.token, id, form);
         if (!response.success) return response;
         commit('update', response.data);
         return response;
     },
-    async deleteTask ({ rootState, commit }, id) {
+    async deleteTask ({ rootState, commit }, { id }) {
         const response = await api.delete(rootState.session.token, id);
         if (!response.success) return response;
         commit('delete', { id });
         return response;
+    },
+    cleanTasks({ commit }) {
+        commit('set', []);
     },
 };
 

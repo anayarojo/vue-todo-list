@@ -2,10 +2,21 @@
 const Helper = (function() {
     const _public = {};
 
-    _public.handleError = function(context, response) {
+    _public.handleSuccess = function(context, message, title = 'Exitoso') {
+
+        context.$notify.success({
+            title: title,
+            duration: 5000,
+            message: message,
+        });
+
+        return true;
+    };
+
+    _public.handleError = function(context, response, title = 'Error') {
         
         context.$notify.error({
-            title: 'Error',
+            title: title,
             duration: 5000,
             message: response.message,
         });
