@@ -12,14 +12,14 @@ const mutations = {
     },
     updateTask(state, task) {
         state.all.forEach((element, index) => {
-            if (element.uuid === task.uuid) {
+            if (element.id === task.id) {
                 state.all[index] = task;
             }
         });
     },
     deleteTask(state, task) {
         state.all.forEach((element, index) => {
-            if (element.uuid === task.uuid) {
+            if (element.id === task.id) {
                 state.all.splice(index, 1);
             }
         });

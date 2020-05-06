@@ -2,7 +2,7 @@
   <div class="component-task-list" :class="className">
     <el-card v-if="tasks.length > 0" class="box-card" :shadow="shadow" :body-style="{ padding: '20px 0px' }">
         <com-task
-          v-for="(task, index) in tasks" :key="task.id || task.uuid" 
+          v-for="(task, index) in tasks" :key="task.id" 
           :index="index" :task="task" :length="tasks.length"
           @update-task="updateTask" @delete-task="deleteTask"
         />
