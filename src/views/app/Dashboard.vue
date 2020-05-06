@@ -43,7 +43,20 @@ import ComTaskList from '@/components/ComTaskList';
         tasks: state => state.tasks.all 
       }),
     },
+    async created() {
+      if (this.tasks == null || this.tasks.length == 0) {
+        await this.loadTasks();
+      }
+    },
     methods: {
+      async loadTasks() {
+        const response = await this.$store.dispatch('tasks/loadTasks');
+        if (!response.success) {
+          Helper.handleError(this, response);
+        } else {
+          Helper.handleSuccess(this, 'Tareas listadas correctamente.', 'Tareas listas');
+        }
+      },
       async createTask(description) {
         const response = await this.$store.dispatch('tasks/createTask', { form: { description } });
         if (!response.success) {
