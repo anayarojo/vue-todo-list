@@ -22,7 +22,7 @@ const actions = {
         if (!response.success) return response;
         commit('setToken', response.token);
         commit('setUser', response.user);
-        dispatch('tasks/loadTasks', {}, { root: true });
+        await dispatch('tasks/loadTasks', {}, { root: true });
         return response;
     },
     async login({ commit, dispatch }, form) {
